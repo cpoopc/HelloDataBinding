@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <!--可以指定生成的DataBinding类名-->
+    <data class="WelcomeBinding">
+        <!--像java中导入类一样导入-->
+        <!--为了避免重名导致混淆,可以指定alias-->
+        <import
+            alias="WelcomModel"
+            type="com.cpoopc.hellodatabinding.viewmodel.WelcomeViewModel"
+            />
+
+        <import type="com.cpoopc.hellodatabinding.StringUtil"/>
+
+        <variable
+            name="welcome"
+            type="WelcomModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".HelloDataBindingActivity">
+
+        <TextView
+            android:id="@+id/hello1Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{welcome.hello1}"/>
+
+        <TextView
+            android:id="@+id/hello2Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hello1Tv"
+            android:text="@{StringUtil.format(welcome.hello2)}"/>
+        <!--指向public的成员变量,或者get前缀的方法返回值 -->
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hello2Tv"
+            android:text="@{welcome.buttonText}"/>
+        <!--绑定点击事件-->
+        <!--android:onClick="@{welcome.onClickButton}"-->
+
+        <include layout="@layout/loading_layout"
+            bind:loading="@{welcome.loading}"
+            />
+        <!--将welcome.loading传递给include的binder,loading为include中的变量名-->
+        <!--若include的变量名改变,include的地方不是都得做修改?-->
+    </RelativeLayout>
+</layout>
